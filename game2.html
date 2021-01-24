@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+.container {
+ width: 354px;
+
+ height: 354px;
+ display: flex;
+ flex-flow: row no-wrap;
+ j
+}
+
+.row div {
+  border: 2px solid lightblue;
+  width: 100px;
+  height: 100px;
+  background: lightblue;
+  margin: 5px;
+  color: black;
+  font-size: 7em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weigt: bold;
+  font-family: lemon;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="row">
+<div class="position" data-number="1"></div>
+<div class="position" data-number="4"></div>
+<div class="position" data-number="7"></div>
+</div>
+
+<div class="row">
+<div class="position" data-number="2"></div>
+<div class="position" data-number="5"></div>
+<div class="position" data-number="8"></div>
+</div>
+
+
+<div class="row">
+<div class="position" data-number="3"></div>
+<div class="position" data-number="6"></div>
+<div class="position" data-number="9"></div>
+</div>
+</div>
+
+<script>
+let positions = document.querySelectorAll('.position');
+var counter = 0;
+var win_list = 
+[[1,5,9], [3,5,7], [1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9]];
+let player1  = {
+  score : 0,
+  played: 0,
+  sign : 'X',
+  played_list: [],
+  play: (j_event, j_square, j_number) => {
+  
+  
+     if (player2.played_list.includes(j_number) == false && player1.played_list.includes(j_number) == false)
+     player1.played_list.push(j_number);
+     j_square.textContent = player1.sign;
+     player1.played += 1;
+     counter += 1;
+    
+  }
+}
+
+let player2  = {
+  score : 0,
+  played: 0,
+  sign : 'O',
+  played_list: [],
+  play: (j_event, j_square, j_number) => {
+  
+  
+     if (player1.played_list.includes(j_number) == false && player2.played_list.includes(j_number) == false)
+     player2.played_list.push(j_number);
+     j_square.textContent = player2.sign;
+     player2.played += 1;
+     counter += 1;
+    
+  }
+  
+}
+
+
+function checkwin() {
+  
+  var x = player1.played_list.length;
+  var y = player2.played_list.length;
+  
+  let b1l = player1.played_list;
+  let b2l = player2.played_list;
+  let checker = false;
+  let checkery = false;
+  let true_counter = 0;
+  let true_countery = 0;
+  if (x >= 3  || y >= 3 ) {
+
+   for (var i=0; i < win_list.length; i++) {
+   for (var n=0; n <= 2; n++) {
+   
+      if (player1.played_list[n] == win_list[i][n]) {
+            checker = true;
+            true_counter += 1;
+      } else if (true_counter == 3) {
+          alert('x wins');
+          return 'x';
+
+      }
+      
+      
+      else {
+            checker = false;
+            true_counter = 0;
+            continue;
+      }
+      
+     
+     
+     // check y win
+     
+           if (player2.played_list[n] == win_list[i][n]) {
+            checkery = true;
+            true_countery += 1;
+      } else if (true_countery == 3) {
+           return 'y';
+         break;
+
+      }
+      
+      
+      else {
+            checkery = false;
+            true_countery = 0;
+            continue;
+      }
+     
+      
+      
+   }
+   }
+
+
+  } 
+  
+
+  
+  
+}
+positions.forEach( square=> {
+   square.addEventListener('click', (event)=> {
+
+      
+      
+      // first play with x
+      x = checkwin();
+
+      if (x) {
+      
+            
+        positions.forEach( pos=> {
+            pos.classList.remove('position');
+          });
+          
+          alert(x + ' Wins ');
+      } else {
+      
+          
+
+
+switch (counter) {
+  case 0:
+    // check win before play
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 1:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 2:
+
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 3:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 4:
+
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 5:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  6:
+
+    turn1 = player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  7:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  8:
+  
+}      
+      
+            }
+      
+      
+   });
+})
+</script>
+
+</body>
+</html>
