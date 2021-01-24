@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+.container {
+ width: 354px;
+
+ height: 354px;
+ display: flex;
+ flex-flow: row no-wrap;
+ j
+}
+
+.row div {
+  border: 2px solid lightblue;
+  width: 100px;
+  height: 100px;
+  background: lightblue;
+  margin: 5px;
+  color: black;
+  font-size: 7em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weigt: bold;
+  font-family: lemon;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="row">
+<div class="position" data-number="1"></div>
+<div class="position" data-number="4"></div>
+<div class="position" data-number="7"></div>
+</div>
+
+<div class="row">
+<div class="position" data-number="2"></div>
+<div class="position" data-number="5"></div>
+<div class="position" data-number="8"></div>
+</div>
+
+
+<div class="row">
+<div class="position" data-number="3"></div>
+<div class="position" data-number="6"></div>
+<div class="position" data-number="9"></div>
+</div>
+</div>
+
+<script>
+let positions = document.querySelectorAll('.position');
+var counter = 0;
+let player1  = {
+  score : 0,
+  played: 0,
+  sign : 'X',
+  played_list: [],
+  play: (j_event, j_square, j_number) => {
+  
+  
+     if (player2.played_list.includes(j_number) == false && player1.played_list.includes(j_number) == false)
+     player1.played_list.push(j_number);
+     j_square.textContent = player1.sign;
+     player1.played += 1;
+     counter += 1;
+    
+  }
+}
+
+let player2  = {
+  score : 0,
+  played: 0,
+  sign : 'O',
+  played_list: [],
+  play: (j_event, j_square, j_number) => {
+  
+  
+     if (player1.played_list.includes(j_number) == false && player2.played_list.includes(j_number) == false)
+     player2.played_list.push(j_number);
+     j_square.textContent = player2.sign;
+     player2.played += 1;
+     counter += 1;
+    
+  }  
+}
+
+positions.forEach( square=> {
+   square.addEventListener('click', (event)=> {
+
+      
+      
+      // first play with x
+      
+      if (counter == 0) {
+      
+            
+         
+      } else {
+      
+          
+      }
+      
+
+switch (counter) {
+  case 0:
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 1:
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 2:
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 3:
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 4:
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 5:
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  6:
+    turn1 = player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  7:
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  8:
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;    
+}      
+      
+      
+      
+   });
+})
+</script>
+
+</body>
+</html>
