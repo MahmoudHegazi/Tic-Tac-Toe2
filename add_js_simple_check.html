@@ -110,28 +110,15 @@ let player2 = {
 
 }
 
-
-function checkwin() {
-
-    var x = player1.played_list.length;
-    var y = player2.played_list.length;
-
-    let b1l = player1.played_list;
-    let b2l = player2.played_list;
-    let checker = false;
-    let checkery = false;
-    let true_counter = 0;
-    let true_countery = 0;
-    if (x >= 3 || y >= 3) {
-
+function winnerLoopCheck(playList, player){
         for (var i = 0; i < win_list.length; i++) {
             let true_counter1 = 0;
             let winList = win_list[i];
-            for (let p = 0; p < player1.played_list.length; p++) {
+            for (let p = 0; p < player.played_list.length; p++) {
                 if (true_counter1 == 3) {
                     break;
                 }
-                const currentPlay = player1.played_list[p];
+                const currentPlay = player.played_list[p];
                 for (let n = 0; n <= 2; n++) {
                     const winPlay = winList[n];
                     if (winPlay == currentPlay) {
@@ -148,14 +135,28 @@ function checkwin() {
 
 
         }
+        return false;
+}
 
+function checkwin() {
 
+    var x = player1.played_list.length;
+    var y = player2.played_list.length;
+    // win start from 3 plays
+    if (x >= 3 || y >= 3) {
+       let xWin = winnerLoopCheck(player1.played_list, player1);
+       let yWin = winnerLoopCheck(player2.played_list, player2);
+       
+       console.log(yWin);
+       if (xWin){
+         return player1;
+       } else if (yWin){
+         return player2;
+       } else {
+         return false;
+       }
     }
-
     return false;
-
-
-
 
 }
 
@@ -226,7 +227,7 @@ positions.forEach(square => {
 
 
                     document.querySelector("#game").style.display = "none";
-                    alert(x + ' Wins ');
+                    alert(x.sign + ' Wins ');
 
                 }
             });
