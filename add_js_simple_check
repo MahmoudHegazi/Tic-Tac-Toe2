@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+.container {
+ width: 354px;
+
+ height: 354px;
+ display: flex;
+ flex-flow: row no-wrap;
+ j
+}
+
+.row div {
+  border: 2px solid lightblue;
+  width: 100px;
+  height: 100px;
+  background: lightblue;
+  margin: 5px;
+  color: black;
+  font-size: 7em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weigt: bold;
+  font-family: lemon;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="row">
+<div class="position" data-number="1"></div>
+<div class="position" data-number="4"></div>
+<div class="position" data-number="7"></div>
+</div>
+
+<div class="row">
+<div class="position" data-number="2"></div>
+<div class="position" data-number="5"></div>
+<div class="position" data-number="8"></div>
+</div>
+
+
+<div class="row">
+<div class="position" data-number="3"></div>
+<div class="position" data-number="6"></div>
+<div class="position" data-number="9"></div>
+</div>
+</div>
+
+<script>
+let positions = document.querySelectorAll('.position');
+var counter = 0;
+var win_list = 
+[[1,5,9], [3,5,7], [1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9]];
+let player1  = {
+  score : 0,
+  played: 0,
+  sign : 'X',
+  played_list: [],
+  play: (j_event, j_square, j_number) => {
+  
+  
+     if (player2.played_list.includes(j_number) == false && player1.played_list.includes(j_number) == false) {
+     
+     console.log("hi");
+     player1.played_list.push(j_number);
+     j_square.textContent = player1.sign;
+     player1.played += 1;
+     counter += 1;
+     }
+     
+     console.log("hi2", j_number, player2.played_list);
+     console.log("hi3", j_number, player1.played_list);
+    
+  }
+
+}
+
+let player2  = {
+  score : 0,
+  played: 0,
+  sign : 'O',
+  played_list: [],
+  play: (j_event, j_square, j_number) => {
+  
+  
+     if (player1.played_list.includes(j_number) == false && player2.played_list.includes(j_number) == false)
+     player2.played_list.push(j_number);
+     j_square.textContent = player2.sign;
+     player2.played += 1;
+     counter += 1;
+    
+  }
+  
+}
+
+
+function checkwin() {
+  
+  var x = player1.played_list.length;
+  var y = player2.played_list.length;
+  
+  let b1l = player1.played_list;
+  let b2l = player2.played_list;
+  let checker = false;
+  let checkery = false;
+  let true_counter = 0;
+  let true_countery = 0;
+  if (x >= 3  || y >= 3 ) {
+   // by using this technique it's better performance, also static play=1 need translate, other (0,0),(0,2) can easy understond no need transalte and more test accurate, but other simplify the final check all code was for prepering result data used in check in large data prepeare first then check better than perpeare and check in same vervcation step
+   for (var i=0; i < win_list.length; i++) {
+      let true_counter1 = 0;
+      let winList = win_list[i];
+      for (let p=0; p<player1.played_list.length; p++){
+        if (true_counter1 == 3){
+           break;
+        }
+        const currentPlay = player1.played_list[p];
+        for (let n=0; n<=2; n++){
+           const winPlay = winList[n];
+           if (winPlay == currentPlay){
+              true_counter1 += 1;
+              break;
+           }
+        }
+      }
+      if (true_counter1==3){
+        alert("you win");
+        return true;
+      }
+      
+          
+      
+
+   }
+
+
+  } 
+  
+
+  
+  
+}
+positions.forEach( square=> {
+   square.addEventListener('click', (event)=> {
+
+      
+      
+      // first play with x
+      x = checkwin();
+
+      if (x) {
+      
+            
+        positions.forEach( pos=> {
+            pos.classList.remove('position');
+          });
+          
+          alert(x + ' Wins ');
+      } else {
+      
+          console.log("here", counter);
+
+
+switch (counter) {
+  case 0:
+    // check win before play
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 1:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 2:
+
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 3:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 4:
+
+    player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case 5:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  6:
+
+    turn1 = player1.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  7:
+
+    player2.play(event, square, square.getAttribute('data-number'));
+    break;
+  case  8:
+    player1.play(event, square, square.getAttribute('data-number'));
+    if (checkwin()){
+        positions.forEach( pos=> {
+           pos.classList.remove('position');
+        });
+        alert("you won in last step case 5 (max number can player have)")
+    }
+    break;
+}      
+      
+            }
+      
+      
+   });
+})
+</script>
+
+</body>
+</html>
