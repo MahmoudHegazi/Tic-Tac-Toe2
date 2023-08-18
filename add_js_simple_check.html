@@ -58,189 +58,185 @@ html, body{
 <script>
 let positions = document.querySelectorAll('.position');
 var counter = 0;
-var win_list = 
-[[1,5,9], [3,5,7], [1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9]];
-let player1  = {
-  score : 0,
-  played: 0,
-  sign : 'X',
-  played_list: [],
-  play: (j_event, j_square, j_number) => {
-  
-  
-     if (player2.played_list.includes(j_number) == false && player1.played_list.includes(j_number) == false) {
-     
-     console.log("hi");
-     player1.played_list.push(j_number);
-     j_square.textContent = player1.sign;
-     player1.played += 1;
-     counter += 1;
-     }
-     
-     console.log("hi2", j_number, player2.played_list);
-     console.log("hi3", j_number, player1.played_list);
-    
-  }
+var win_list = [
+    [1, 5, 9],
+    [3, 5, 7],
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9]
+];
+let player1 = {
+    score: 0,
+    played: 0,
+    sign: 'X',
+    played_list: [],
+    play: (j_event, j_square, j_number) => {
+
+
+        if (player2.played_list.includes(j_number) == false && player1.played_list.includes(j_number) == false) {
+
+            console.log("hi");
+            player1.played_list.push(j_number);
+            j_square.textContent = player1.sign;
+            player1.played += 1;
+            counter += 1;
+        }
+
+        console.log("hi2", j_number, player2.played_list);
+        console.log("hi3", j_number, player1.played_list);
+
+    }
 
 }
 let oldTimeout = null;
-let player2  = {
-  score : 0,
-  played: 0,
-  sign : 'O',
-  played_list: [],
-  play: (j_event, j_square, j_number) => {
-  
-  
-     if (player1.played_list.includes(j_number) == false && player2.played_list.includes(j_number) == false)
-     player2.played_list.push(j_number);
-     j_square.textContent = player2.sign;
-     player2.played += 1;
-     counter += 1;
-    
-  }
-  
+let player2 = {
+    score: 0,
+    played: 0,
+    sign: 'O',
+    played_list: [],
+    play: (j_event, j_square, j_number) => {
+
+
+        if (player1.played_list.includes(j_number) == false && player2.played_list.includes(j_number) == false)
+            player2.played_list.push(j_number);
+        j_square.textContent = player2.sign;
+        player2.played += 1;
+        counter += 1;
+
+    }
+
 }
 
 
 function checkwin() {
-  
-  var x = player1.played_list.length;
-  var y = player2.played_list.length;
-  
-  let b1l = player1.played_list;
-  let b2l = player2.played_list;
-  let checker = false;
-  let checkery = false;
-  let true_counter = 0;
-  let true_countery = 0;
-  if (x >= 3  || y >= 3 ) {
 
-   for (var i=0; i < win_list.length; i++) {
-      let true_counter1 = 0;
-      let winList = win_list[i];
-      for (let p=0; p<player1.played_list.length; p++){
-        if (true_counter1 == 3){
-           break;
+    var x = player1.played_list.length;
+    var y = player2.played_list.length;
+
+    let b1l = player1.played_list;
+    let b2l = player2.played_list;
+    let checker = false;
+    let checkery = false;
+    let true_counter = 0;
+    let true_countery = 0;
+    if (x >= 3 || y >= 3) {
+
+        for (var i = 0; i < win_list.length; i++) {
+            let true_counter1 = 0;
+            let winList = win_list[i];
+            for (let p = 0; p < player1.played_list.length; p++) {
+                if (true_counter1 == 3) {
+                    break;
+                }
+                const currentPlay = player1.played_list[p];
+                for (let n = 0; n <= 2; n++) {
+                    const winPlay = winList[n];
+                    if (winPlay == currentPlay) {
+                        true_counter1 += 1;
+                        break;
+                    }
+                }
+            }
+            if (true_counter1 == 3) {
+                return true;
+            }
+
+
+
+
         }
-        const currentPlay = player1.played_list[p];
-        for (let n=0; n<=2; n++){
-           const winPlay = winList[n];
-           if (winPlay == currentPlay){
-              true_counter1 += 1;
-              break;
-           }
-        }
-      }
-      if (true_counter1==3){
-        return true;
-      }
-      
-          
-      
 
-   }
-
-
-  } 
-  
-  return false;
-  
-
-  
-  
-}
-
-function isRightMC(e){
-    var isRightMB = false;
-    e = e || window.event;
-
-    if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-        isRightMB = e.which == 3; 
-    else if ("button" in e)  // IE, Opera 
-        isRightMB = e.button == 2; 
-        
-    return isRightMB
-}
-
-
-positions.forEach( square=> {
-
-   square.addEventListener('click', (event)=> {
-        
-      let oldTimeout = null;
-      // first play with x
-      x = checkwin();
-if (x == false){
-switch (counter) {
-  case 0:
-    // check win before play
-    player1.play(event, square, square.getAttribute('data-number'));
-    break;
-  case 1:
-
-    player2.play(event, square, square.getAttribute('data-number'));
-    break;
-  case 2:
-
-    player1.play(event, square, square.getAttribute('data-number'));
-    break;
-  case 3:
-
-    player2.play(event, square, square.getAttribute('data-number'));
-    break;
-  case 4:
-
-    player1.play(event, square, square.getAttribute('data-number'));
-    break;
-  case 5:
-
-    player2.play(event, square, square.getAttribute('data-number'));
-    break;
-  case  6:
-
-    turn1 = player1.play(event, square, square.getAttribute('data-number'));
-    break;
-  case  7:
-
-    player2.play(event, square, square.getAttribute('data-number'));
-    break;
-  case  8:
-    player1.play(event, square, square.getAttribute('data-number'));
-    break;
-}
-if (oldTimeout){
-  clearTimeout(oldTimeout);
-}
-oldTimeout = setTimeout(()=>{
-
-      // first play with x better ux game check win after user complete play and also system click event used to play only now
-      const x = checkwin();
-            if (x) {
-      
-            
-        positions.forEach( pos=> {
-            pos.classList.remove('position');
-          });
-          
-          document.body.style = "background-image:url('https://superbwishes.com/wp-content/uploads/2022/09/Congratulations-GIF-Images-3.gif')";
-          
-          
-          document.querySelector("#game").style.display = "none";
-          alert(x + ' Wins ');
 
     }
-});
+
+    return false;
+
+
+
+
 }
 
 
 
+positions.forEach(square => {
 
-       
-       
-      
-   });
-})
+    square.addEventListener('click', (event) => {
+
+        let oldTimeout = null;
+        // first play with x
+        x = checkwin();
+
+        if (x == false) {
+            switch (counter) {
+                case 0:
+                    // check win before play
+                    player1.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 1:
+
+                    player2.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 2:
+
+                    player1.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 3:
+
+                    player2.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 4:
+
+                    player1.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 5:
+
+                    player2.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 6:
+
+                    turn1 = player1.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 7:
+
+                    player2.play(event, square, square.getAttribute('data-number'));
+                    break;
+                case 8:
+                    player1.play(event, square, square.getAttribute('data-number'));
+                    break;
+            }
+            if (oldTimeout) {
+                clearTimeout(oldTimeout);
+            }
+            // check after complete all play + no repeat code for validate last step 8 twice only check wins before play
+            oldTimeout = setTimeout(() => {
+
+                // first play with x better ux game check win after user complete play and also system click event used to play only now
+                const x = checkwin();
+                if (x) {
+
+
+                    positions.forEach(pos => {
+                        pos.classList.remove('position');
+                    });
+
+                    document.body.style = "background-image:url('https://superbwishes.com/wp-content/uploads/2022/09/Congratulations-GIF-Images-3.gif')";
+
+
+                    document.querySelector("#game").style.display = "none";
+                    alert(x + ' Wins ');
+
+                }
+            });
+        }
+
+
+
+
+    });
+});
 </script>
 
 </body>
