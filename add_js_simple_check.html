@@ -83,7 +83,7 @@ let player1  = {
   }
 
 }
-
+let oldTimeout = null;
 let player2  = {
   score : 0,
   played: 0,
@@ -144,32 +144,34 @@ function checkwin() {
 
   } 
   
+  return false;
+  
 
   
   
 }
-positions.forEach( square=> {
-   square.addEventListener('click', (event)=> {
 
-      
-      
+function isRightMC(e){
+    var isRightMB = false;
+    e = e || window.event;
+
+    if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+        isRightMB = e.which == 3; 
+    else if ("button" in e)  // IE, Opera 
+        isRightMB = e.button == 2; 
+        
+    return isRightMB
+}
+
+
+positions.forEach( square=> {
+
+   square.addEventListener('click', (event)=> {
+        
+      let oldTimeout = null;
       // first play with x
       x = checkwin();
-
-      if (x) {
-      
-            
-        positions.forEach( pos=> {
-            pos.classList.remove('position');
-          });
-          document.body.style = "background-image:url('https://superbwishes.com/wp-content/uploads/2022/09/Congratulations-GIF-Images-3.gif')";
-          document.querySelector("#game").style.display = "none";
-          alert(x + ' Wins ');
-      } else {
-      
-          console.log("here", counter);
-
-
+if (x == false){
 switch (counter) {
   case 0:
     // check win before play
@@ -205,17 +207,37 @@ switch (counter) {
     break;
   case  8:
     player1.play(event, square, square.getAttribute('data-number'));
-    if (checkwin()){
-        positions.forEach( pos=> {
-           pos.classList.remove('position');
-        });
-        alert("you won in last step case 5 (max number can player have)")
-    }
     break;
-}      
+}
+if (oldTimeout){
+  clearTimeout(oldTimeout);
+}
+oldTimeout = setTimeout(()=>{
+
+      // first play with x better ux game check win after user complete play and also system click event used to play only now
+      const x = checkwin();
+            if (x) {
       
-            }
-      
+            
+        positions.forEach( pos=> {
+            pos.classList.remove('position');
+          });
+          
+          document.body.style = "background-image:url('https://superbwishes.com/wp-content/uploads/2022/09/Congratulations-GIF-Images-3.gif')";
+          
+          
+          document.querySelector("#game").style.display = "none";
+          alert(x + ' Wins ');
+
+    }
+});
+}
+
+
+
+
+       
+       
       
    });
 })
