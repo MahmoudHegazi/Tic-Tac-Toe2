@@ -3,6 +3,10 @@
 <head>
 <title>Page Title</title>
 <style>
+html, body{
+  height: 100%;
+  background-size: cover;
+}
 .container {
  width: 354px;
 
@@ -11,7 +15,7 @@
  flex-flow: row no-wrap;
  j
 }
-
+  
 .row div {
   border: 2px solid lightblue;
   width: 100px;
@@ -30,7 +34,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="game">
 
 <div class="row">
 <div class="position" data-number="1"></div>
@@ -51,7 +55,6 @@
 <div class="position" data-number="9"></div>
 </div>
 </div>
-
 <script>
 let positions = document.querySelectorAll('.position');
 var counter = 0;
@@ -112,7 +115,7 @@ function checkwin() {
   let true_counter = 0;
   let true_countery = 0;
   if (x >= 3  || y >= 3 ) {
-   // by using this technique it's better performance, also static play=1 need translate, other (0,0),(0,2) can easy understond no need transalte and more test accurate, but other simplify the final check all code was for prepering result data used in check in large data prepeare first then check better than perpeare and check in same vervcation step
+
    for (var i=0; i < win_list.length; i++) {
       let true_counter1 = 0;
       let winList = win_list[i];
@@ -130,7 +133,6 @@ function checkwin() {
         }
       }
       if (true_counter1==3){
-        alert("you win");
         return true;
       }
       
@@ -160,7 +162,8 @@ positions.forEach( square=> {
         positions.forEach( pos=> {
             pos.classList.remove('position');
           });
-          
+          document.body.style = "background-image:url('https://superbwishes.com/wp-content/uploads/2022/09/Congratulations-GIF-Images-3.gif')";
+          document.querySelector("#game").style.display = "none";
           alert(x + ' Wins ');
       } else {
       
